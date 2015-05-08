@@ -4,13 +4,13 @@ safe-divide
 safe-divide is a simple experiment exploring the impact of code clarity
 when the _calling_ function is allowed to specify the exception thrown
 when an error condition is detected.  It is derived from the example
-functions shown in the Expected<T,E> proposal, documented at
+functions shown in the `Expected<T,E>` proposal, documented at
 http://www.hyc.io/boost/expected-proposal.pdf .
 
 safe-divide is another attempt to combine the strengths of both exception
 based processing and return code processing.
 
-As documented in the Expected<T,E> proposal, use of exception yields a
+As documented in the `Expected<T,E>` proposal, use of exception yields a
 clean main code path, but the exceptions that are thrown are often invisible,
 and it's often hard to verify that the error conditions have actually been
 catered for.  On the other hand, return code based coding clearly shows that
