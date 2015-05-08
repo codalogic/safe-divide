@@ -58,6 +58,7 @@ double f1( double i, double j, double k )
 {
     return i + safe_divide<Texception>(j,k);
 }
+
 // Some classes by which to record errors
 //----------------------------------------------------------------------------
 
