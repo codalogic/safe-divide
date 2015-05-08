@@ -46,12 +46,28 @@
 // Modified functions from http://www.hyc.io/boost/expected-proposal.pdf
 //----------------------------------------------------------------------------
 
-template< typename Texception >
-double safe_divide( double i, double j )
-{
-    if( j == 0.0 ) throw Texception();
-    return i / j;
-}
+class default_safe_divide_exception {};
+
+#ifdef _MSC_VER // Old versions of MSVC don't allow defaulted function templates
+    template< typename Texception >
+    double safe_divide( double i, double j )
+    {
+        if( j == 0.0 ) throw Texception();
+        return i / j;
+    }
+
+    double safe_divide( double i, double j )
+    {
+        return safe_divide<default_safe_divide_exception>( i, j );
+    }
+#else   // For builds with: g++ -std=c++11 ...
+    template< typename Texception = default_safe_divide_exception >
+    double safe_divide( double i, double j )
+    {
+        if( j == 0.0 ) throw Texception();
+        return i / j;
+    }
+#endif
 
 template< typename Texception >
 double f1( double i, double j, double k )
@@ -99,6 +115,42 @@ void test_safe_divide_bad()
     catch( or_j_is_zero & )
     {
         Good( "test_safe_divide_bad exception thrown" );
+    }
+    catch( ... )
+    {
+        Bad( "Unexpected shit happened. Our program is broken!" );
+    }
+}
+
+void test_default_exception_safe_divide_ok()
+{
+    try
+    {
+        double i=1.0, j=1.0;
+        double r = safe_divide( i, j );
+        Good( "test_default_exception_safe_divide_ok exception did not throw" );
+    }
+    catch( default_safe_divide_exception & )
+    {
+        Bad( "test_default_exception_safe_divide_ok exception should not throw" );
+    }
+    catch( ... )
+    {
+        Bad( "Unexpected shit happened. Our program is broken!" );
+    }
+}
+
+void test_default_exception_safe_divide_bad()
+{
+    try
+    {
+        double i=1.0, j=0.0;
+        double r = safe_divide( i, j );
+        Bad( "test_default_exception_safe_divide_bad exception did not throw" );
+    }
+    catch( default_safe_divide_exception & )
+    {
+        Good( "test_default_exception_safe_divide_bad exception thrown" );
     }
     catch( ... )
     {
@@ -278,6 +330,9 @@ int main( int argc, char * argv[] )
 {
     test_safe_divide_ok();
     test_safe_divide_bad();
+
+    test_default_exception_safe_divide_ok();
+    test_default_exception_safe_divide_bad();
 
     test_multiple_safe_divide_ok();
     test_multiple_safe_divide_bad();
