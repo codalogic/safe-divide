@@ -20,9 +20,9 @@ the main code path.
 
 Allowing the _calling_ function to specify the exception to be thrown if there
 are errors, allows the calling function to change the code execution flow when
-the called function encounters error conditions.  This is particularly 
+the called function encounters error conditions.  This is particularly
 significant when multiple operations of the same type are performed, but you want
-to perform different error recovery / reporting based on whether the first, 
+to perform different error recovery / reporting based on whether the first,
 second, etc instance of the operation failed (For example, see
 test_multiple_safe_divide_bad() and test_multiple_f1_ok() in the source code
 file).
