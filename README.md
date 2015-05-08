@@ -7,7 +7,8 @@ when an error condition is detected.  It is derived from the example
 functions shown in the `Expected<T,E>` proposal, documented at
 http://www.hyc.io/boost/expected-proposal.pdf .
 
-safe-divide is another attempt to combine the strengths of both exception
+safe-divide represents a style of programming rather than being a library etc.
+It is another attempt to combine the strengths of both exception
 based processing and return code processing.
 
 As documented in the `Expected<T,E>` proposal, use of exception yields a
